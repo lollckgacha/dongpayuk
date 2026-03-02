@@ -1,0 +1,365 @@
+/* =========================================
+   ❄️ 2026 동파육 - CYBER ICE & NEON WINTER THEME
+   ========================================= */
+:root {
+    --bg-dark: #05080a; /* 차가운 푸른빛이 감도는 딥 블랙 */
+    --bg-card: #0d1318;
+    --bg-hover: #151e26;
+    
+    --primary-mint: #00E5BC;
+    --mint-bright: #4FFFDA;
+    --mint-dim: rgba(0, 229, 188, 0.15);
+    --mint-glow: rgba(0, 229, 188, 0.5);
+    
+    --text-white: #ffffff;
+    --text-gray: #a0a0a0;
+    
+    --podium-gold: #FFD700;
+    --podium-silver: #C0C0C0;
+    --podium-bronze: #CD7F32;
+    
+    --font-main: 'Chakra Petch', 'Exo 2', sans-serif;
+    --font-body: 'Exo 2', sans-serif;
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: var(--font-body);
+    overflow-x: hidden;
+    /* 빙판 위에 네온이 은은하게 비치는 효과 */
+    background-image: radial-gradient(circle at 50% -20%, rgba(0, 229, 188, 0.15) 0%, var(--bg-dark) 70%);
+    background-attachment: fixed;
+}
+
+/* =========================================
+   네비게이션 (상단 메뉴)
+   ========================================= */
+nav {
+    position: sticky; top: 0;
+    background: rgba(5, 8, 10, 0.85);
+    border-bottom: 2px solid var(--primary-mint);
+    box-shadow: 0 4px 25px -5px var(--mint-glow);
+    display: flex; justify-content: center; flex-wrap: wrap;
+    padding: 0 10px; z-index: 1000;
+    backdrop-filter: blur(12px);
+}
+
+.nav-link {
+    background: none; border: none;
+    color: var(--text-gray);
+    font-size: 1rem; font-weight: 700; font-family: var(--font-main);
+    padding: 18px 20px;
+    cursor: pointer; text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-mint);
+    text-shadow: 0 0 15px var(--mint-glow);
+}
+.nav-link.active::after {
+    content: ''; position: absolute; bottom: 0; left: 15%; right: 15%;
+    height: 3px; background: var(--primary-mint);
+    box-shadow: 0 -2px 10px var(--primary-mint);
+}
+
+/* =========================================
+   레이아웃 & 탭 전환 애니메이션
+   ========================================= */
+.container { 
+    max-width: 1200px; margin: 0 auto; padding: 40px 10px; min-height: 80vh; position: relative; z-index: 2; 
+}
+.view-section { display: none; animation: slideUpFade 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+.view-section.active { display: block; }
+
+@keyframes slideUpFade { 
+    from { opacity: 0; transform: translateY(30px); } 
+    to { opacity: 1; transform: translateY(0); } 
+}
+
+/* =========================================
+   테이블 (경기 결과 & 순위표)
+   ========================================= */
+.f1-table { width: 100%; border-collapse: separate; border-spacing: 0 6px; margin-top: 20px; font-size: 0.95rem; }
+.f1-table th {
+    text-align: center; color: var(--text-gray); 
+    padding: 12px 5px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase;
+    font-family: var(--font-main); border-bottom: 2px solid #222;
+    letter-spacing: 1px;
+}
+.f1-table td {
+    background: var(--bg-card); padding: 12px 10px; vertical-align: middle;
+    text-align: center; border: 1px solid transparent; transition: all 0.2s;
+    background-image: linear-gradient(45deg, transparent 0%, transparent 48%, rgba(255, 255, 255, 0.02) 50%, transparent 52%, transparent 100%);
+    background-size: 15px 15px;
+}
+
+/* F1 테이블 호버 효과 (칸나눠진 테두리 제거 & 양끝 둥글게) */
+.f1-table tr:hover td {
+    background-color: var(--bg-hover) !important;
+    border-color: transparent; 
+    box-shadow: inset 0 0 20px rgba(0, 229, 188, 0.03); 
+}
+.f1-table tr:hover td:first-child {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+.f1-table tr:hover td:last-child {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+/* 테이블 유틸리티 클래스 */
+.cell-left { 
+    width: 100%; display: flex; align-items: center; justify-content: flex-start;
+    text-align: left; padding-left: 15px; gap: 15px;
+}
+
+.p-avatar { 
+    width: 55px; height: 55px; border-radius: 12px;
+    object-fit: cover; object-position: top center;
+    background: #222; border: 2px solid #333; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.rank-num { font-weight: 900; font-size: 1.4rem; font-family: var(--font-main); font-style: italic; display: inline-block; min-width: 30px;}
+.rank-1 { color: var(--podium-gold); text-shadow: 0 0 12px rgba(255, 215, 0, 0.6); font-size: 1.6rem; }
+.rank-2 { color: var(--podium-silver); text-shadow: 0 0 10px rgba(192, 192, 192, 0.4); font-size: 1.5rem;}
+.rank-3 { color: var(--podium-bronze); text-shadow: 0 0 10px rgba(205, 127, 50, 0.4); }
+
+.record-time { font-family: var(--font-main); font-weight: 700; color: var(--text-white); font-size: 1.1rem; }
+.gap-time { font-family: var(--font-main); font-size: 0.9rem; color: #888; font-weight: 600; }
+
+.mint-glow-text {
+    color: var(--primary-mint);
+    text-shadow: 0 0 12px rgba(0, 229, 188, 0.5);
+    font-weight: 900;
+    font-size: 1.25rem;
+}
+
+/* =========================================
+   🏆 핵심 레이아웃: 이름 스택 & 봅슬레이 팀명
+   ========================================= */
+.name-stack {
+    display: flex; flex-direction: column; justify-content: center;
+}
+.stack-team {
+    font-size: 0.8rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.5px; margin-bottom: 2px;
+}
+.stack-name {
+    font-size: 1.2rem; font-weight: 900; color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.bobsleigh-team-text {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-family: var(--font-main);
+    letter-spacing: 2px;
+}
+
+/* =========================================
+   종합순위 아코디언 (스마트 화살표) 디자인
+   ========================================= */
+
+.standings-main-row:hover td {
+    background-color: rgba(0, 229, 188, 0.08) !important;
+}
+
+.standings-pts-cell {
+    position: relative;
+    font-family: var(--font-main);
+    padding-right: 40px !important;
+}
+
+.standings-row-arrow { 
+    position: absolute; right: 15px; top: 50%; 
+    transform: translateY(-50%); /* 삐딱한 기울기 제거 */
+    color: #666; font-size: 1.1rem; /* 크기 살짝 조정 */
+    transition: all 0.3s ease; pointer-events: none; 
+}
+.standings-main-row:hover .standings-row-arrow { 
+    color: var(--primary-mint); text-shadow: 0 0 8px var(--mint-glow); 
+}
+.standings-row-arrow.rotated { 
+    transform: translateY(-50%) rotate(180deg); /* 반듯하게 180도 회전 */
+    color: var(--primary-mint); 
+}
+
+.standings-detail-row td { padding: 0 !important; background: transparent !important; border:none !important; }
+.standings-detail-box { max-height: 0; overflow: hidden; background: rgba(0, 0, 0, 0.5); transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), padding 0.4s ease; }
+.standings-detail-box.open { max-height: 800px; transition: max-height 0.6s ease-in-out; }
+.standings-detail-inner { padding: 15px 30px; }
+
+/* 영수증 내부 디자인 */
+.detail-medal-item { 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; /* 양쪽 정렬(포인트는 우측 끝으로) */
+    padding: 10px 0; 
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1); 
+    font-family: var(--font-body); 
+}
+.detail-medal-item:last-child { border-bottom: none; }
+
+.detail-sport-icon { 
+    width: 24px; 
+    height: 24px; 
+    object-fit: contain; 
+    filter: invert(1) drop-shadow(0 0 8px rgba(255, 255, 255, 0.8)); 
+}
+
+.detail-event-name { 
+    font-size: 1.05rem; 
+    font-weight: bold; 
+    color: var(--text-white); 
+}
+
+.detail-player-name { 
+    font-size: 1.05rem; 
+    color: #eee; 
+}
+
+.detail-pts { 
+    font-family: var(--font-main); 
+    font-size: 1.1rem; 
+    font-weight: 900; 
+    color: var(--primary-mint); 
+}
+
+/* =========================================
+   종목(트랙) 헤더 카드
+   ========================================= */
+.track-header-card {
+    background: linear-gradient(135deg, #0d1318 0%, #05080a 100%);
+    border: 2px solid var(--primary-mint);
+    box-shadow: 0 0 25px var(--mint-dim), inset 0 0 15px rgba(0, 229, 188, 0.05);
+    padding: 25px 35px; margin-bottom: 30px;
+    display: flex; flex-direction: row; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+}
+.track-header-card::before { 
+    content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; 
+    background: var(--primary-mint); box-shadow: 0 0 15px var(--primary-mint); 
+}
+
+.track-info-box { flex: 1; z-index: 2; }
+.track-name-title { font-size: 2.2rem; font-weight: 900; color: var(--text-white); text-transform: uppercase; font-family: var(--font-main); margin: 0; letter-spacing: 1px;}
+.track-map-wrapper { flex: 1; display: flex; justify-content: flex-end; z-index: 2; }
+.track-map-img { 
+    max-width: 180px; max-height: 120px; object-fit: contain; 
+    /* 핵심: 검정색 SVG를 흰색으로 반전(invert(1))시키고, 흰색 네온 글로우 추가 */
+    filter: invert(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.7)); 
+    opacity: 0.85; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); 
+}
+.track-map-img:hover { 
+    transform: scale(1.08) rotate(-3deg); opacity: 1; 
+    /* 호버 시 더 강하고 선명한 흰색 네온 글로우 */
+    filter: invert(1) drop-shadow(0 0 25px rgba(255, 255, 255, 0.9)); 
+}
+
+.section-deco-logo { width: 150px; filter: drop-shadow(0 0 15px var(--mint-glow)); opacity: 0.9; margin-bottom: 10px; }
+
+/* =========================================
+   종합순위 버튼 (Standings Nav)
+   ========================================= */
+.standings-type-nav { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; justify-content: center; }
+.type-btn {
+    background: rgba(255,255,255,0.05); border: 2px solid #444; color: var(--text-gray);
+    padding: 10px 25px; font-family: var(--font-main); font-weight: 800; font-size: 1rem;
+    cursor: pointer; transition: 0.3s; border-radius: 8px; text-transform: uppercase;
+}
+.type-btn.active, .type-btn:hover {
+    border-color: var(--primary-mint); color: var(--primary-mint); background: rgba(0, 229, 188, 0.1);
+    box-shadow: 0 0 20px var(--mint-dim); text-shadow: 0 0 8px var(--mint-glow);
+}
+
+/* =========================================
+   메인 홈 화면 버튼 (HOME)
+   ========================================= */
+#view-home.active { display: flex; align-items: center; justify-content: center; min-height: 80vh; }
+.home-container { display: flex; align-items: center; justify-content: center; gap: 50px; width: 100%; }
+.home-logo-area { flex: 1; text-align: right; animation: floatLogo 4s ease-in-out infinite; }
+.main-home-logo { max-width: 480px; width: 90%; filter: drop-shadow(0 0 40px var(--mint-glow)); }
+@keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+.home-nav-area { flex: 1; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.trap-btn {
+    position: relative;
+    background: linear-gradient(90deg, rgba(0, 229, 188, 0.1) 0%, rgba(5, 8, 10, 0.9) 100%);
+    border: none; border-right: 4px solid var(--primary-mint);
+    padding: 18px 35px; cursor: pointer; display: flex; align-items: center; justify-content: space-between; 
+    width: 340px; transform: skewX(-15deg); transition: all 0.3s; overflow: hidden;
+    box-shadow: -5px 5px 15px rgba(0,0,0,0.4);
+}
+.trap-btn::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 229, 188, 0.3), transparent);
+    transition: 0.5s; transform: skewX(15deg);
+}
+.trap-btn span { transform: skewX(15deg); font-family: var(--font-main); font-weight: 800; font-size: 1.15rem; color: var(--text-white); transition: 0.3s; letter-spacing: 1px; }
+.btn-arrow { color: var(--primary-mint); font-size: 1.5rem; opacity: 0; transform: translateX(-20px) skewX(15deg); transition: 0.4s; }
+
+/* 계단식 들여쓰기 효과 */
+.trap-btn:nth-child(1) { margin-left: 75px; } .trap-btn:nth-child(2) { margin-left: 60px; } 
+.trap-btn:nth-child(3) { margin-left: 45px; } .trap-btn:nth-child(4) { margin-left: 30px; } 
+.trap-btn:nth-child(5) { margin-left: 15px; } .trap-btn:nth-child(6) { margin-left: 0px; }
+
+.trap-btn:hover {
+    background: rgba(0, 229, 188, 0.2); box-shadow: 0 0 30px var(--mint-glow);
+    padding-left: 50px; transform: skewX(-15deg) scale(1.02);
+}
+.trap-btn:hover::before { left: 100%; }
+.trap-btn:hover .btn-text { color: var(--primary-mint); text-shadow: 0 0 10px var(--mint-glow); }
+.trap-btn:hover .btn-arrow { opacity: 1; transform: translateX(0) skewX(15deg); }
+.trap-btn.highlight { border-right-color: var(--podium-gold); background: linear-gradient(90deg, rgba(255, 215, 0, 0.1) 0%, rgba(5, 8, 10, 0.9) 100%); }
+.trap-btn.highlight:hover { background: rgba(255, 215, 0, 0.2); box-shadow: 0 0 30px rgba(255,215,0,0.4); }
+.trap-btn.highlight:hover .btn-text, .trap-btn.highlight:hover .btn-arrow { color: var(--podium-gold); text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+
+/* =========================================
+   참가자 그리드 (Players)
+   ========================================= */
+.players-grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 20px; }
+.team-card {
+    border-radius: 12px; padding: 25px; position: relative; overflow: hidden;
+    background: var(--bg-card); border: 2px solid #333; box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+    transition: transform 0.3s;
+}
+.team-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
+.team-name-header { font-family: var(--font-main); font-size: 2rem; font-weight: 900; text-transform: uppercase; text-align: center; margin-bottom: 25px; letter-spacing: 2px; }
+.team-players-row { display: flex; justify-content: space-around; flex-wrap: wrap; gap: 15px; }
+
+.player-card-box { display: flex; flex-direction: column; align-items: center; width: 45%; }
+.player-photo-large {
+    width: 110px; height: 110px; border-radius: 18px; object-fit: cover; object-position: top center;
+    border: 3px solid rgba(255,255,255,0.2); background: #222; margin-bottom: 12px;
+    transition: all 0.3s ease;
+}
+.player-card-box:hover .player-photo-large { transform: scale(1.05); }
+.player-name-large { font-family: var(--font-main); font-size: 1.2rem; font-weight: 800; color: var(--text-white); }
+
+/* =========================================
+   모바일 반응형
+   ========================================= */
+@media (max-width: 968px) {
+    .home-container { flex-direction: column; gap: 30px; }
+    .home-logo-area { text-align: center; }
+    .main-home-logo { max-width: 320px; }
+    .home-nav-area { align-items: center; }
+    .trap-btn:nth-child(n) { margin-left: 0; width: 300px; }
+    
+    .track-header-card { flex-direction: column; text-align: center; padding: 20px; }
+    .track-info-box { padding-right: 0; margin-bottom: 20px; }
+    .track-map-wrapper { justify-content: center; }
+    .track-header-card::before { width: 100%; height: 5px; top: 0; left: 0; }
+    
+    .f1-table { font-size: 0.8rem; }
+    .f1-table th, .f1-table td { padding: 10px 5px; }
+    .name-stack .stack-name { font-size: 1rem; }
+    .bobsleigh-team-text { font-size: 1.2rem; }
+    .p-avatar { width: 45px; height: 45px; }
+}
