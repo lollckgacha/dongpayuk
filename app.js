@@ -311,14 +311,12 @@ function renderStandings() {
         if(r.rank <= 3) addStats(viewState.standingsType === 'team' ? r.team : r.name, r.team, r, '바이애슬론', r.name); 
     });
     
-    // 봅슬레이 개인 기록 반영 추가 파트
+    // 봅슬레이 메달/점수 부여 로직
     appData.bobsleigh.forEach(r => { 
         if(r.rank <= 3) {
             if (viewState.standingsType === 'team') {
-                // 팀 종합 순위일 때는 팀 전체에 1번만 추가
                 addStats(r.team, r.team, r, '봅슬레이', '단체전'); 
             } else {
-                // 개인 MVP 순위일 때는 해당 팀의 '모든 팀원'에게 메달/점수 부여
                 const members = appData.players.filter(p => p.team === r.team);
                 members.forEach(member => {
                     addStats(member.name, member.team, r, '봅슬레이', '단체전');
@@ -363,8 +361,18 @@ function renderStandings() {
         
         let nameCellHTML = '';
         if (viewState.standingsType === 'team') {
-            nameCellHTML = `<span class="bobsleigh-team-text" style="color:${tColor}; font-size:1.4rem;">${item.name}</span>`;
+            // ✨ 팀 순위일 때: 팀장 정보를 찾아서 아바타 이미지를 추가합니다.
+            const captain = appData.players.find(x => x.team === item.team && x.isCaptain);
+            const capImg = captain ? captain.img : 'images/logo.png';
+            
+            nameCellHTML = `
+                <div class="cell-left">
+                    <img src="${capImg}" class="p-avatar" style="width:45px; height:45px; border-color:${tColor};" onerror="this.src='images/logo.png'">
+                    <span class="bobsleigh-team-text" style="color:${tColor}; font-size:1.4rem; text-shadow:0 0 15px ${tColor}88;">${item.name}</span>
+                </div>
+            `;
         } else {
+            // ✨ 개인 순위일 때: 기존처럼 개인 아바타와 이중 텍스트 적용
             nameCellHTML = `<div class="cell-left"><img src="${getPlayerImg(item.name)}" class="p-avatar" onerror="this.src='images/logo.png'">${getNameStackHTML(item.name, item.team)}</div>`;
         }
 
@@ -414,7 +422,7 @@ function renderStandings() {
                 <td colspan="6" style="padding:0; border:none; background:transparent;">
                     <div id="detail-box-${idx}" class="standings-detail-box" style="border-left: 4px solid ${tColor};">
                         <div class="standings-detail-inner">
-                            <div style="font-size:0.85rem; color:#aaa; margin-bottom:10px; font-weight:bold;"></div>
+                            <div style="font-size:0.85rem; color:#aaa; margin-bottom:10px; font-weight:bold;">🎖 메달 획득 상세 내역</div>
                             ${detailItemsHTML}
                         </div>
                     </div>
